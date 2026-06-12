@@ -1,0 +1,29 @@
+/.vscode
+
+# Compiled binaries and executables
+main
+max_subarray
+*.out
+
+# Object files
+*.o
+*.obj
+
+# Debug symbols
+*.dSYM/
+*.dSYM
+
+# macOS specific files
+.DS_Store
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# Build directories
+build/
+dist/
+*.a
+*.so
