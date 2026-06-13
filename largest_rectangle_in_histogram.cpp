@@ -6,21 +6,24 @@ In this question we have to find the largest rectangle possible and return its a
     - If the numbers on right are greater than or equal to curr move right pointer (r++)
     - Calculate area and update the max area
 */
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <stack>
 
 using namespace std;
 
+int largestRectangleArea_Brute(vector<int> &heights);
 int largestRectangleArea(vector<int> &heights);
 
-int main(){
-    vector<int> heights = {2,1,5,6,2,3};
+int main()
+{
+    vector<int> heights = {2, 1, 5, 6, 2, 3};
     int res = largestRectangleArea(heights);
-    cout<<"Largest rectangle: "<<res<<endl;
+    cout << "Largest rectangle: " << res << endl;
     return 0;
 }
 
-int largestRectangleArea(vector<int> &heights)
+int largestRectangleArea_Brute(vector<int> &heights)
 {
     int l, r;
     int n = heights.size();
@@ -38,6 +41,49 @@ int largestRectangleArea(vector<int> &heights)
             r++;
         }
         int area = heights[i] * (r - l - 1);
+        max_area = max(max_area, area);
+    }
+    return max_area;
+}
+
+int largestRectangleArea(vector<int> &heights)
+{
+    int n = heights.size();
+    vector<int> l(n);
+    vector<int> r(n);
+    stack<int> num_stack;
+
+    // Find the array of right smallest element for all
+    for (int i = n - 1; i >= 0; i--)
+    {
+        while (!num_stack.empty() && heights[num_stack.top()] >= heights[i])
+        {
+            num_stack.pop();
+        }
+        num_stack.empty()?r[i]=n:r[i]=num_stack.top();
+        num_stack.push(i);
+    }
+
+    // Empty the stack
+    while(!num_stack.empty()){
+        num_stack.pop();
+    }
+
+    // Find the array of left smallest element for all
+    for (int i = 0; i < n; i++)
+    {
+        while (!num_stack.empty() && heights[num_stack.top()] >= heights[i])
+        {
+            num_stack.pop();
+        }
+        num_stack.empty()?l[i]=-1:l[i]=num_stack.top();
+        num_stack.push(i);
+    }
+
+    // Calculate and find max area
+    int max_area = INT_MIN;
+    for(int i=0; i<n; i++){
+        int area = heights[i] * (r[i]-l[i]-1);
         max_area = max(max_area, area);
     }
     return max_area;
