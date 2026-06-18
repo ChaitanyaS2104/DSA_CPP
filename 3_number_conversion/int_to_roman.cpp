@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include<string>
+
 using namespace std;
 
 /*
@@ -23,8 +25,6 @@ string intToRoman(int num) {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
     int n;
     if (!(cin >> n)) return 0;
     cout << intToRoman(n) << '\n';
